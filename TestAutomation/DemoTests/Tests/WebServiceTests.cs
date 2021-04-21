@@ -8,6 +8,7 @@ namespace Tests
     /// Sample test class
     /// </summary>
     [TestClass]
+    [TestCategory(TestCategories.Smoke)]
     public class WebServiceTests : BaseWebServiceTest
     {
         /// <summary>
