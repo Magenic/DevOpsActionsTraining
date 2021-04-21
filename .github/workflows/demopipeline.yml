@@ -17,7 +17,7 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.101
-    - name: test app with dotnet
+    - name: Test app with dotnet
       run: dotnet test WebApp/TestSite.sln
     - name: Publish app with dotnet
       run: dotnet publish WebApp/TestSite.sln -c Release -o ${{github.workspace}}/artifactApp
@@ -39,7 +39,7 @@ jobs:
     needs: build
     runs-on: windows-latest
     steps:
-      - name: download app
+      - name: Download app
         uses: actions/download-artifact@v1
         with:
           name: app
@@ -55,7 +55,7 @@ jobs:
     needs: deployToLower
     runs-on: windows-latest
     steps:
-      - name: download tests
+      - name: Download tests
         uses: actions/download-artifact@v1
         with:
           name: tests
@@ -69,11 +69,11 @@ jobs:
       - name: Setup VSTest Path
         uses: darenm/Setup-VSTest@v1 
 
-      - name: run tests
+      - name: Run smoke tests
         shell: cmd
         run: dotnet vstest artifactTests\tests.dll --TestCaseFilter:TestCategory=Smoke /logger:"trx;LogFileName=${{github.workspace}}/artifactTests/logs/results.trx" --Settings:artifactTests\ParallelLower.RunSettings 
         
-      - name: run tests
+      - name: Run regression tests
         shell: cmd
         run: dotnet vstest artifactTests\tests.dll --TestCaseFilter:TestCategory=Regression /logger:"trx;LogFileName=${{github.workspace}}/artifactTests/logs/results.trx" --Settings:artifactTests\ParallelLower.RunSettings  
 
@@ -103,7 +103,7 @@ jobs:
     needs: deployToHigher
     runs-on: windows-latest
     steps:
-      - name: download tests
+      - name: Download tests
         uses: actions/download-artifact@v1
         with:
           name: tests
@@ -113,10 +113,10 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 3.1.101
-      - name: run tests
+      - name: Run smoke tests
         shell: cmd
         run: dotnet vstest artifactTests\tests.dll --TestCaseFilter:TestCategory=Smoke /logger:"trx;LogFileName=${{github.workspace}}/artifactTests/logs/results.trx" --Settings:artifactTests\ParallelHigher.RunSettings 
-      - name: run tests
+      - name: Run regression tests
         shell: cmd
         run: dotnet vstest artifactTests\tests.dll --TestCaseFilter:TestCategory=Regression /logger:"trx;LogFileName=${{github.workspace}}/artifactTests/logs/results.trx" --Settings:artifactTests\ParallelHigher.RunSettings  
       - name: Upload test results
