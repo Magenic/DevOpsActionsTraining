@@ -13,5 +13,6 @@
   <TestRunParameters>
     <Parameter name="SeleniumMaqs:Browser" value="chrome" />
     <Parameter name="SeleniumMaqs:WebSiteBase" value="https://ttwdevopshigher.azurewebsites.net" />
+    <Parameter name="WebServiceMaqs:WebServiceUri" value="https://ttwdevopshigher.azurewebsites.net" />
   </TestRunParameters>  
 </RunSettings>
