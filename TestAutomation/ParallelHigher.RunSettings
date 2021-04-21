@@ -2,7 +2,7 @@
 <RunSettings>
   <RunConfiguration>
     <DisableAppDomain>True</DisableAppDomain>
-    <MaxCpuCount>3</MaxCpuCount>
+    <MaxCpuCount>4</MaxCpuCount>
   </RunConfiguration>
   <MSTest>
     <Parallelize>
