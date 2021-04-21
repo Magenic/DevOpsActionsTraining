@@ -69,13 +69,13 @@ jobs:
       - name: Setup VSTest Path
         uses: darenm/Setup-VSTest@v1 
 
-     # - name: VSTest
-      #  run: vstest.console.exe artifactTests\tests.dll --TestCaseFilter:TestCategory=Regression /logger:"trx;LogFileName=${{github.workspace}}/artifactTests/logs/results.trx" --Settings:artifactTests\Parallel.RunSettings 
+      - name: run tests
+        shell: cmd
+        run: dotnet vstest artifactTests\tests.dll --TestCaseFilter:TestCategory=Smoke /logger:"trx;LogFileName=${{github.workspace}}/artifactTests/logs/results.trx" --Settings:artifactTests\ParallelLower.RunSettings 
         
       - name: run tests
         shell: cmd
-        run: dotnet vstest artifactTests\tests.dll --TestCaseFilter:TestCategory=Regression /logger:"trx;LogFileName=${{github.workspace}}/artifactTests/logs/results.trx" --Settings:artifactTests\ParallelHigher.RunSettings  
-        #run: dotnet vstest artifactTests\tests.dll --TestCaseFilter:TestCategory=Regression /logger:"trx;LogFileName=${{github.workspace}}/artifactTests/logs/results.trx" --Settings:artifactTests\Parallel.RunSettings  -- TestRunParameters.Parameter(name=\"SeleniumMaqs:Browser\",value=\"Chrome\") TestRunParameters.Parameter(name=\"SeleniumMaqs:WebSiteBase\", value=\"https://ttwdevopshigher.azurewebsites.net\")
+        run: dotnet vstest artifactTests\tests.dll --TestCaseFilter:TestCategory=Regression /logger:"trx;LogFileName=${{github.workspace}}/artifactTests/logs/results.trx" --Settings:artifactTests\ParallelLower.RunSettings  
 
       - name: Upload test results
         if: failure()
@@ -115,9 +115,10 @@ jobs:
           dotnet-version: 3.1.101
       - name: run tests
         shell: cmd
+        run: dotnet vstest artifactTests\tests.dll --TestCaseFilter:TestCategory=Smoke /logger:"trx;LogFileName=${{github.workspace}}/artifactTests/logs/results.trx" --Settings:artifactTests\ParallelHigher.RunSettings 
+      - name: run tests
+        shell: cmd
         run: dotnet vstest artifactTests\tests.dll --TestCaseFilter:TestCategory=Regression /logger:"trx;LogFileName=${{github.workspace}}/artifactTests/logs/results.trx" --Settings:artifactTests\ParallelHigher.RunSettings  
-        #run: dotnet vstest artifactTests\tests.dll --TestCaseFilter:TestCategory=Regression /logger:"trx;LogFileName=${{github.workspace}}/artifactTests/logs/results.trx" --Settings:artifactTests\Parallel.RunSettings  -- TestRunParameters/Parameter[contains(@name,'SeleniumMaqs:Browser')]/@value="Chrome"  TestRunParameters/Parameter[contains(@name,'SeleniumMaqs:WebSiteBase')]/@value="https://ttwdevopshigher.azurewebsites.net"
-      
       - name: Upload test results
         if: failure()
         uses: actions/upload-artifact@v1.0.0
